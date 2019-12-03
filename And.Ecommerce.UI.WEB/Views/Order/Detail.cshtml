@@ -1,0 +1,59 @@
+﻿@model And.Ecommerce.Core.Model.Entity.Order
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@Model.ID - Order is on the : @Model.Status.Name</h2>
+<hr />
+<b> Order details</b>
+<table>
+    <tr>
+        <td>Bank</td>
+        <td>Name of bank</td>
+    </tr>
+    <tr>
+        <td>IBAN</td>
+        <td>AZE1651651616165162356558</td>
+    </tr>
+    <tr>
+        <td>Name</td>
+        <td>Supplier Details</td>
+    </tr>
+</table>
+@{ 
+    if (Model.StatusID==2)
+    {
+        <a href="/Order/Pay?id=@Model.ID" class="btn btn-success">Paid</a>
+    }
+}
+
+<hr />
+<b> Order details</b>
+<table>
+    <tr>
+        <td>Total</td>
+        <td>@Model.TotalPrice.ToString("##,## ₼")</td>
+    </tr>
+    <tr>
+        <td>Total Products</td>
+        <td>@Model.TotalProductPrice.ToString("##,## ₼")</td>
+    </tr>
+
+</table>
+<hr />
+<b> Products</b>
+<table>
+<tr>
+    <th>Product</th>
+    <th>Quantity</th>
+</tr>
+    @{ 
+        foreach (var item in Model.OrderProducts)
+        {
+            <tr>
+                <td>@item.Product.Name</td>
+                <td>@item.Quantity</td>
+            </tr>
+        }
+    }
+</table>

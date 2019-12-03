@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Admin";
+    var user = Session["AdminLogin"] as And.Ecommerce.Core.Model.Entity.User;
+}
+
+<h2>@user.Name @user.LastName Welcome to the Admin</h2>
+<ul>
+    <li>
+        <a href="/Admin/Users">Users Control</a>
+    </li>
+    <li>
+        <a href="/Admin/Products">Products Control</a>
+    </li>
+    <li>
+        <a href="/Admin/Categories">Category Control</a>
+    </li>
+    <li>
+        <a href="/Admin/AdminOrders">Order Control</a>
+    </li>
+</ul>
+
