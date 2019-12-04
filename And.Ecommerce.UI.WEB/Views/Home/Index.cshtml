@@ -1,16 +1,16 @@
 ﻿@model List<And.Ecommerce.Core.Model.Entity.Product>
-@{
+<h1>Welcome to ECommerce Website</h1>
+@*@{
     ViewBag.Title = "Index";
-    //var isLogin = (bool)ViewBag.IsLogin;
-}
+    var isLogin = (bool)ViewBag.IsLogin;
+}*@
 
-<h2>E-Commerce</h2>
-<h3>Last 5 Products</h3>
-@*@{ 
-    foreach (var  item in Model)
+@*<h3>Last 5 Products</h3>
+@{
+    foreach (var item in Model)
     {
-    <div class="productBox">
-       
+        <div class="productBox">
+
             <p class="title">@item.Name</p>
             <img src="@item.ImageUrl" />
             <p>@item.Description</p>
@@ -21,44 +21,44 @@
             {
                 <a href="#" data-pID="@item.ID" class="btn btn-default addBasket"><i class="fas fa-shopping-basket"></i> Add to Cart</a>
             }
-       
-    </div>
+
+        </div>
     }
 }*@
-<div id="andModal" title="Information">
-    <br />
-    Item added to Basket <br /> <br />
-    <a class="btn btn-success text-white" href="@Url.Action("Index","Basket")">My Basket</a>
-</div>
-<div class="row"></div>
-<style>
-    .productBox{
-        width:220px;
-        float:left;
-        margin:10px;
-        border:2px solid #9b9b9b;
-        padding:10px;
-    }
-    .productBox img{
-        width:100%
-    }
-    .productBox title{
-        font-weight:bold;
-        text-align:center;
-    }
-    .productBox p{
-        text-align:center;
-    }
+<div class="row">
 
-
-
-</style>
-@section script{
-    <script type="text/javascript">
-     $(".addBasket").on("click", function () {
-            $("#andModal").dialog();
-        });
-            $( function() {
+    @foreach (var product in Model)
+    {
+        <div class="col-md-4 col-sm-4">
+            <div class="card" style="width: 18rem;">
+                <img style="height:300px;" src="@Url.Content("~/Documents/ProductImages/"+product.ImageUrl)" class="card-img-top" alt="@product.Brand">
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                    <p class="card-text">@product.Price ₼</p>
+                    @*<a href="@Url.Action(product.Name.Replace(" ","-"),"Product",new { id = product.ID})" class="btn btn-primary float-left">In Detail</a>*@
+                    <a href="/products/@product.Name.Replace(" ","-")/@product.ID" class="btn btn-primary float-left">In Detail</a>
+                    @if (ViewBag.IsLogin)
+                    {
+                        <button data-pID="@product.ID" class="addBasket btn btn-success float-right text-white">Add to Cart</button>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    <div id="andModal" title="Information">
+        <br />
+        Item added to Basket <br /> <br />
+        <a class="btn btn-success text-white" href="@Url.Action("Index","Basket")">My Basket</a>
+    </div>
+    <div class="row"></div>
+    @section script{
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script type="text/javascript">
+            $(".addBasket").on("click", function () {
+                $("#andModal").dialog();
+            });
+            $(function () {
                 $("#andModal").dialog({
                     autoOpen: false,
                     show: {
@@ -70,16 +70,16 @@
                         duration: 1000
                     }
                 });
-           
+
                 $(".addBasket").on("click", function () {
-                    var pid = $(this).attr("data-pID"); 
-                    $.post("/Basket/AddProduct?productID="+pid, function (data) {
+                    var pid = $(this).attr("data-pID");
+                    $.post("/Basket/AddProduct?productID=" + pid, function (data) {
                         $("#andModal").dialog("open");
                     });
-                
-                return false;
-            });
-          } );
 
-    </script>
+                    return false;
+                });
+            });
+
+        </script>
     }

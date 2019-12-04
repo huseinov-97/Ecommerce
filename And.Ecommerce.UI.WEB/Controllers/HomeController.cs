@@ -13,69 +13,86 @@ namespace And.Ecommerce.UI.WEB.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            ViewBag.IsLogin = Session["LoginUser"] != null ? true : false;
+            var products = db.Products.Take(6).OrderBy(p => p.ID).ToList();
+            return View(products);
             //ViewBag.IsLogin = this.IsLogin;
             //var data = db.Products.OrderByDescending(x => x.CreateDate).Take(5).ToList();
 
-            return View(/*data*/);
+         
         }
         public PartialViewResult GetMenu()
         {
 
-            //var menus = db.Categories.Where(x => x.ParentID == 0).ToList();
-            return PartialView(/*menus*/);
+            var menus = db.Categories.Where(x => x.ParentID == 0).ToList();
+            return PartialView(menus);
         }
-        [Route("login")]
+        
         public ActionResult Login()
         {
 
             return View();
         }
         [HttpPost]
-       [Route("login")]
-        public ActionResult Login(string Email, string Password)
+       
+        public ActionResult Login(string email, string password)
         {
-
-            var users = db.Users.Where(x => x.Email == Email
-             && x.Password == Password
-             && x.IsActive == true
-             && x.IsAdmin == false).ToList();
-            if (users.Count == 1)
+            var data = db.Users.Where(u => u.Email == email && u.Password == password
+                            && u.IsActive == true && u.IsAdmin == false).ToList();
+            if (data.Count == 1)
             {
-                Session["LoginUserID"] = users.FirstOrDefault().ID;
-                Session["LoginUser"] = users.FirstOrDefault();
-                return Redirect("/");
+                var user = data.FirstOrDefault();
+                Session["IsLogin"] = true;
+                Session["LoginUser"] = user;
+                Session["LoginUserID"] = user.ID;
+                return RedirectToAction("Index", "Home", null);
             }
-            else
-            {
-                ViewBag.Error = "Wrong Email address or Password";
-                return View();
-
-            }
+            ViewData["Error"] = "Wrong Credientials";
+            return View();
         }
-        [Route("Register")]
+       
         public ActionResult Register()
         {
             return View();
         }
         [HttpPost]
-        [Route("Register")]
+       
         public ActionResult Register(User user)
         {
-            try
+            //try
+            //{
+            //    user.IsActive = true;
+            //    user.IsAdmin = false;
+            //    user.CreateDate = DateTime.Now.Date;
+            //    user.CreateUserID = 1;
+            //    db.Users.Add(user);
+            //    db.SaveChanges();
+            //    return Redirect("/");
+            //}
+            //catch (Exception)
+            //{
+
+            //    return View();
+            //}
+            user.IsActive = true;
+            user.IsAdmin = false;
+            user.CreateDate = DateTime.Now.Date;
+            user.CreateUserID = 1;
+
+            if (ModelState.IsValid)
             {
-                user.IsActive = true;
-                user.IsAdmin = false;
-                user.CreateDate = DateTime.Now.Date;
-                user.CreateUserID = 1;
                 db.Users.Add(user);
                 db.SaveChanges();
-                return Redirect("/");
+                return RedirectToAction("Login");
             }
-            catch (Exception)
-            {
-
-                return View();
-            }
+            return View();
+        }
+        public ActionResult LogOut()
+        {
+            Session.Clear();
+            Session.Abandon();
+            // Redirecting to Login page after deleting Session
+            return RedirectToAction("Index", "Home");
         }
     }
 }

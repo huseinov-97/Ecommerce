@@ -1,0 +1,136 @@
+﻿@model List<And.Ecommerce.Core.Model.Entity.Product>
+<h1>Welcome to ECommerce Website</h1>
+<div class="row">
+    <div class="col-md-3">
+        <div class="row">
+            <div class="col-md-12 col-xs-6">
+                <div class="products-dropdown open-dropdown">
+                    <span><i class="icon-515" title="515"></i>Accessories</span>
+                    <ul>
+                        <li><a href="#">Footwear</a></li>
+                        <li><a href="#">Jackets</a></li>
+                        <li><a href="#">Shirts</a></li>
+                        <li><a href="#">Shorts</a></li>
+                        <li><a href="#">Trousers</a></li>
+                        <li><a href="#">Sweaters</a></li>
+                        <li><a href="#">Jeans</a></li>
+                        <li><a href="#">Mens</a></li>
+                        <li><a href="#">Woman</a></li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="col-md-12 col-xs-6">
+                <div class="products-dropdown">
+                    <span>Brands</span>
+                    <ul>
+                        <li><a href="#">Addidas</a></li>
+                        <li><a href="#">Nike</a></li>
+                        <li><a href="#">D &amp; G</a></li>
+                        <li><a href="#">Gucci</a></li>
+                        <li><a href="#">Armani</a></li>
+                        <li><a href="#">Levi's</a></li>
+                        <li><a href="#">Active Wear</a></li>
+                        <li><a href="#">G Star</a></li>
+                        <li><a href="#">Soft Gray</a></li>
+                    </ul>
+                    <div class="products-dropdown-close">Clear <i class="icon-456" title="close"></i></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="col-md-12 col-xs-6">
+                <div class="products-dropdown">
+                    <span>Color</span>
+                    <ul>
+                        <li><a href="#">Red</a></li>
+                        <li><a href="#">Blue</a></li>
+                        <li><a href="#">Violet</a></li>
+                        <li><a href="#">Dark blue</a></li>
+                        <li><a href="#">Yellow</a></li>
+                        <li><a href="#">White</a></li>
+                        <li><a href="#">Black</a></li>
+                        <li><a href="#">Orange</a></li>
+                        <li><a href="#">Gray</a></li>
+                    </ul>
+                    <div class="products-dropdown-close">Clear <i class="icon-456" title="close"></i></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="col-md-12 col-xs-6">
+                <div class="products-dropdown">
+                    <span>Size</span>
+                    <ul>
+                        <li><a href="#">XS</a></li>
+                        <li><a href="#">S</a></li>
+                        <li><a href="#">M</a></li>
+                        <li><a href="#">L</a></li>
+                        <li><a href="#">XL</a></li>
+                        <li><a href="#">XXL</a></li>
+                        <li><a href="#">XXXL</a></li>
+                    </ul>
+                    <div class="products-dropdown-close">Clear <i class="icon-456" title="close"></i></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<div class="row">
+
+    @foreach (var product in Model)
+    {
+        <div class="col-md-4 col-sm-4">
+            <div class="card" style="width: 18rem;">
+                <img style="height:300px;" src="@Url.Content("~/Documents/ProductImages/"+product.ImageUrl)" class="card-img-top" alt="@product.Brand">
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                    <p class="card-text">@product.Price ₼</p>
+                    @*<a href="@Url.Action(product.Name.Replace(" ","-"),"Product",new { id = product.ID})" class="btn btn-primary float-left">In Detail</a>*@
+                    <a href="/products/@product.Name.Replace(" ","-")/@product.ID" class="btn btn-primary float-left">In Detail</a>
+                    @if (ViewBag.IsLogin)
+                    {
+                        <button data-pID="@product.ID" class="addBasket btn btn-success float-right text-white">Add to Cart</button>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    <div id="andModal" title="Information">
+        <br />
+        Item added to Basket <br /> <br />
+        <a class="btn btn-success text-white" href="@Url.Action("Index","Basket")">My Basket</a>
+    </div>
+    <div class="row"></div>
+    @section script{
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script type="text/javascript">
+            $(".addBasket").on("click", function () {
+                $("#andModal").dialog();
+            });
+            $(function () {
+                $("#andModal").dialog({
+                    autoOpen: false,
+                    show: {
+                        effect: "blind",
+                        duration: 1000
+                    },
+                    hide: {
+                        effect: "explode",
+                        duration: 1000
+                    }
+                });
+
+                $(".addBasket").on("click", function () {
+                    var pid = $(this).attr("data-pID");
+                    $.post("/Basket/AddProduct?productID=" + pid, function (data) {
+                        $("#andModal").dialog("open");
+                    });
+
+                    return false;
+                });
+            });
+
+        </script>
+    }

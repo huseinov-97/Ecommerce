@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿@*<!DOCTYPE html>
     <html>
     <head>
         <meta charset="utf-8" />
@@ -6,12 +6,23 @@
         <title>@ViewBag.Title - My ASP.NET Application</title>
         <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
         <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="css/bootstrap.css" />
+        <link rel="stylesheet" href="css/style.css" />
 
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
         <script src="~/Scripts/modernizr-2.8.3.js"></script>
     </head>
     <body>
+        <div class="dropdown">
+            <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown trigger
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dLabel">
+                ...
+            </ul>
+        </div>
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -68,4 +79,76 @@
         <script src="~/Scripts/bootstrap.min.js"></script>
         @RenderSection("script", false)
     </body>
-    </html>
+    </html>*@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@Page.Title</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    @RenderSection("head", required: false)
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="@Url.Action("Index", "Home")">Ecommerce</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="@Url.Action("Index", "Home")">Home</a>
+                </li>
+                <li class="nav-item active">
+            <a class="nav-link" href="@Url.Action("Index","Product")">All products</a>
+        </li>
+                <li class="nav-item active">
+                    <a class="nav-link"> @Html.Action("GetMenu", "Home")</a>
+                </li>
+</ul>
+            <ul class="navbar-nav ml-auto">
+                @{
+                    if (Session["LoginUser"] == null)
+                    {
+                        <li class="nav-item"><a class="nav-link" href="@Url.Action("Login","Home")">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="@Url.Action("Register","Home")">Register</a></li>
+                    }
+                    else
+                    {
+                        var user = Session["LoginUser"] as And.Ecommerce.Core.Model.Entity.User;
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Welcome, @user.Name
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="@Url.Action("Index","Profile")">My Profile</a>
+                                <a class="dropdown-item" href="@Url.Action("MyOrders","Order")">My Orders</a>
+                                <a class="dropdown-item" href="@Url.Action("Index","Basket")">My Basket</a>
+                                <a class="dropdown-item" href="@Url.Action("Logout","Home")">Log out</a>
+                                @*@Url.Action("Basket", "Profile")
+        @Url.Action("Orders", "Profile")*@
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    @RenderSection("script", false)
+</body>
+</html>

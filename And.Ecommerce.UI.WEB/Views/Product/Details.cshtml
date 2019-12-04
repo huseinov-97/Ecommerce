@@ -3,12 +3,98 @@
     ViewBag.Title = "Details";
 }
 <h2>Details</h2>
-    <div class="productBox">
-        <p class="title">@Model.Name</p>
-        <img src="@Model.ImageUrl" />
-        <p>@Model.Description</p>
-        <p>@Model.Brand</p>
-        <p>@Model.Price.ToString("##,## ₼")</p>
-        <a href="/Basket/AddProduct" class="btn btn-default"><i class="fas fa-shopping-basket"></i> Add to Cart</a>
-    </div>
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.Category.Name)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Category.Name)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Name)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Name)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Brand)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Brand)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Model)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Model)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.ImageUrl)
+    </dt>
+
+    <dd>
+        <img src="@Url.Content("~/Documents/ProductImages/"+Model.ImageUrl)" />
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Description)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Description)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Price)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Price)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Tax)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Tax)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Discount)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Discount)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Stock)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Stock)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.IsActive)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.IsActive)
+    </dd>
+</dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
 

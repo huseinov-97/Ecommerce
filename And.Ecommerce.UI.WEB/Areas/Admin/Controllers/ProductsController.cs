@@ -85,10 +85,11 @@ namespace And.Ecommerce.UI.WEB.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,CategoryID,Brand,Model,ImageUrl,Description,Price,Tax,Discount,Stock,IsActive,CreateDate,CreateUserID,UpdateDate,UpdateUserID")] Product product)
+        public ActionResult Edit([Bind(Include = "ID,Name,CategoryID,Brand,Model,ImageUrl,Description,Price,Tax,Discount,Stock,IsActive,CreateDate,CreateUserID,UpdateDate,UpdateUserID")] Product product, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
+                ImageHelper.Save(product, file);
                 db.Entry(product).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

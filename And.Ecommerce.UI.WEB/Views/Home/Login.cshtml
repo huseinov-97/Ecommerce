@@ -1,42 +1,70 @@
-﻿
+﻿@*
+        <style>
+            .left {
+                width: 120px;
+                float: left;
+                margin: 5px
+            }
+
+            .right {
+                width: 120px;
+                float: left
+            }
+        </style>
+    <h2>Login</h2>
+    <br />
+
+    @{
+        if (ViewBag.Error!=null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.Error
+            </div>
+        }
+    }
+    <form action="/Login" method="post">
+        <div class="left">
+            @Html.Label("Email:")
+        </div>
+        <div class="right">@Html.TextBox("Email")</div>
+        <div class="row"></div>
+        <div class="left">
+            @Html.Label("Password:")
+        </div>
+        <div class="right">
+            @Html.Password("Password")
+        </div>
+        <div class="row"></div>
+        <button type="submit">Login</button>
+    </form>*@
+
 @{
     ViewBag.Title = "Login";
 }
-    <style>
-        .left {
-            width: 120px;
-            float: left;
-            margin: 5px
-        }
 
-        .right {
-            width: 120px;
-            float: left
+<h2>User Login</h2>
+<form method="post" action="@Url.Action("Login","Home",null)">
+    @Html.AntiForgeryToken()
+    @{
+        if (ViewData["Error"] != null)
+        {
+            <div class="alert alert-danger">@ViewData["Error"]</div>
         }
-    </style>
-<h2>Login</h2>
-<br />
-
-@{ 
-    if (ViewBag.Error!=null)
-    {
-        <div class="alert alert-danger">
-            @ViewBag.Error
-        </div> 
     }
-}
-<form action="/Login" method="post">
-    <div class="left">
-        @Html.Label("Email:")
+    <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input required name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
     </div>
-    <div class="right">@Html.TextBox("Email")</div>
-    <div class="row"></div>
-    <div class="left">
-        @Html.Label("Password:")
+    <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input required name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
     </div>
-    <div class="right">
-        @Html.Password("Password")
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
     </div>
-    <div class="row"></div>
-    <button type="submit">Login</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+

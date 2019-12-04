@@ -19,8 +19,8 @@ namespace And.ECommerce.UI.WEB.Helpers
         public static void Save<T>(T obj, HttpPostedFileBase file, string contentType = null)
         {
             var name = Name(file);
-            //string folderName = "ProductImagekjhjkhkjs";
-          
+            string folderName = "ProductImages";
+
             //if (contentType != null)
             //{
             //    switch (contentType)
@@ -33,7 +33,7 @@ namespace And.ECommerce.UI.WEB.Helpers
             //    }
             //}
 
-            string path = Path.Combine(HttpContext.Current.Server.MapPath($"~/Documents/ProductImages/"), name);
+            string path = Path.Combine(HttpContext.Current.Server.MapPath($"~/Documents/{folderName}/"), name);
             obj.GetType().GetProperty("ImageUrl").SetValue(obj, name);
             file.SaveAs(path);
         }
