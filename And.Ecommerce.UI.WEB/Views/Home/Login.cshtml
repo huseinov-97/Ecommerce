@@ -1,43 +1,3 @@
-﻿@*
-        <style>
-            .left {
-                width: 120px;
-                float: left;
-                margin: 5px
-            }
-
-            .right {
-                width: 120px;
-                float: left
-            }
-        </style>
-    <h2>Login</h2>
-    <br />
-
-    @{
-        if (ViewBag.Error!=null)
-        {
-            <div class="alert alert-danger">
-                @ViewBag.Error
-            </div>
-        }
-    }
-    <form action="/Login" method="post">
-        <div class="left">
-            @Html.Label("Email:")
-        </div>
-        <div class="right">@Html.TextBox("Email")</div>
-        <div class="row"></div>
-        <div class="left">
-            @Html.Label("Password:")
-        </div>
-        <div class="right">
-            @Html.Password("Password")
-        </div>
-        <div class="row"></div>
-        <button type="submit">Login</button>
-    </form>*@
-
 @{
     ViewBag.Title = "Login";
 }
@@ -60,10 +20,11 @@
         <label for="exampleInputPassword1">Password</label>
         <input required name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
     </div>
-    <div class="form-group form-check">
+    <p>@Html.ActionLink("Forgot Password?","ForgetPassword","Home",null,null)</p>
+    @*<div class="form-group form-check">
         <input type="checkbox" class="form-check-input" id="exampleCheck1">
         <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    </div>
+    </div>*@
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
