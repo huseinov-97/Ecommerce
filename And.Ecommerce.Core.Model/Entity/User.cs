@@ -18,6 +18,7 @@ namespace And.Ecommerce.Core.Model.Entity
         public string Password { get; set; }
         public bool IsActive { get; set; }
         public bool IsAdmin { get; set; }
+        public string ResetPasswordCode { get; set; }
         public virtual IEnumerable<UserAddress> UserAddress { get; set; }
 
 
