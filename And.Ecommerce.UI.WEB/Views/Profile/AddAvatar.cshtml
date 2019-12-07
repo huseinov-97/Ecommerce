@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "AddAvatar";
+}
+
+<link href="~/Content/dropzone/dropzone.css" rel="stylesheet" />
+<h2>AddAvatar</h2>
+
+<p>Drag & Drop or Choose a file</p>
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Ajax.BeginForm("UploadFiles", "Profile", null, new AjaxOptions { HttpMethod = "POST" }, new { @class = "dropzone", id = "mydropzone", enctype = "multipart/form-data" }))
+        {
+
+        }
+    </div>
+    <div class="col-md-12 text-right mt-4">
+        <button class="btn btn-primary" id="uploadbutton">
+            <i class="fade fa-upload"></i>Upload
+        </button>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script src="~/Scripts/dropzone.js"></script>
+    <script>
+        Dropzone.autoDiscover = false;
+
+        $(function () {
+            var dz = null;
+            $("#mydropzone").dropzone({
+                autoProcessQueue: false,
+                paramName: "file",
+                maxFiles: 1,
+                parallelUploads: 1,
+                maxFilesize: 2,//mb
+                maxFilesize: 1, //mb
+                acceptedFiles: ".jpeg,.jpg,.png",
+                //uploadMultiple:true,
+                addRemoveLinks: true,
+                //resizeWidth:128,
+                init: function () {
+                    dz = this;
+                    $("#uploadbutton").click(function () {
+                        dz.processQueue();
+                    })
+                },
+                dictDefaultMessage: "Drag and drop your images, baby! ;D",
+                dictRemoveFile:"Remove it"
+            });
+        });
+    </script>
+}
+

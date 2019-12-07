@@ -1,10 +1,20 @@
-﻿@model And.Ecommerce.Core.Model.Entity.User
-
+﻿@model And.Ecommerce.UI.WEB.Models.RegisterModel
 @{
     ViewBag.Title = "Register";
 }
 
 <h2>Register</h2>
+
+@if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.Status))
+{
+    <div class="alert alert-success">@ViewBag.Message</div>
+
+    <p>Click her to login. @Html.ActionLink("Login", "Login", "Home", null, null)</p>
+}
+else if (ViewBag.Status != null && !Convert.ToBoolean(ViewBag.Status))
+{
+    <div class="alert alert-danger">Error. <strong>@ViewBag.Message</strong></div>
+}
 @using (Html.BeginForm("Register", "Home", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
@@ -53,7 +63,13 @@
             </div>
         </div>
 
-        
+        <div class="form-group">
+            @Html.LabelFor(model => model.ComparePassword, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ComparePassword, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ComparePassword, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

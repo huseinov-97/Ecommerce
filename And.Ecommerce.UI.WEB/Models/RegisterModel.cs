@@ -3,17 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace And.Ecommerce.Core.Model.Entity
+namespace And.Ecommerce.UI.WEB.Models
 {
-    [MetadataType(typeof(UserMetaData))]
-    public partial class User
-    {
-    }
-
-    public class UserMetaData
+    public class RegisterModel
     {
         [Required]
         [MaxLength(50)]
@@ -24,7 +18,7 @@ namespace And.Ecommerce.Core.Model.Entity
         public string LastName { get; set; }
 
         [Required]
-        //[Unique]
+        [Unique]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
@@ -34,5 +28,10 @@ namespace And.Ecommerce.Core.Model.Entity
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare(nameof(Password), ErrorMessage = "Passwords do not match.")]
+        public string ComparePassword { get; set; }
     }
 }

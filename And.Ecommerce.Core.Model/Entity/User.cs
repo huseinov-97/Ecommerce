@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace And.Ecommerce.Core.Model.Entity
 {
-    public class User : EntityBase
+    public partial class User : EntityBase
     {
         public string Name { get; set; }
         public string LastName { get; set; }
@@ -19,6 +19,9 @@ namespace And.Ecommerce.Core.Model.Entity
         public bool IsActive { get; set; }
         public bool IsAdmin { get; set; }
         public string ResetPasswordCode { get; set; }
+        public string ImageUrl { get; set; }
+        public string VerificationCode { get; set; }
+        public bool IsEmailVerified { get; set; }
         public virtual IEnumerable<UserAddress> UserAddress { get; set; }
 
 

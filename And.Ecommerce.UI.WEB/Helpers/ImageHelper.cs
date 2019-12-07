@@ -21,17 +21,13 @@ namespace And.ECommerce.UI.WEB.Helpers
             var name = Name(file);
             string folderName = "ProductImages";
 
-            //if (contentType != null)
-            //{
-            //    switch (contentType)
-            //    {
-            //        case "Services": folderName = "ProductImages"; break;
-            //        case "Menus": folderName = "Menus"; break;
-            //        case "Sliders":
-            //            folderName = "Sliders";
-            //            break;
-            //    }
-            //}
+            if (contentType != null)
+            {
+                switch (contentType)
+                {
+                    case "UserAvatars": folderName = "UserAvatars"; break;
+                }
+            }
 
             string path = Path.Combine(HttpContext.Current.Server.MapPath($"~/Documents/{folderName}/"), name);
             obj.GetType().GetProperty("ImageUrl").SetValue(obj, name);

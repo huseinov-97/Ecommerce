@@ -2,8 +2,20 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-     var user = Session["LoggedUser"] as And.Ecommerce.Core.Model.Entity.User;
+    var user = Session["LoggedUser"] as And.Ecommerce.Core.Model.Entity.User;
+}
+@if (ViewBag.NotVerified != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.NotVerified
+    </div>
+}
+@Html.ActionLink("Add Avatar", "AddAvatar", "Profile", null, new { @class = "btn btn-primary"})
+    <br />
+@using (Html.BeginForm("RemoveAvatar", "Profile", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <button class="btn btn-danger" type="submit">Remove Avatar</button>
 }
 
-   
 

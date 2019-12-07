@@ -1,30 +1,9 @@
-﻿@model List<And.Ecommerce.Core.Model.Entity.Product>
-<h1>Welcome to ECommerce Website</h1>
-@*@{
-    ViewBag.Title = "Index";
-    var isLogin = (bool)ViewBag.IsLogin;
-}*@
-
-@*<h3>Last 5 Products</h3>
-@{
-    foreach (var item in Model)
-    {
-        <div class="productBox">
-
-            <p class="title">@item.Name</p>
-            <img src="@item.ImageUrl" />
-            <p>@item.Description</p>
-            <p>@item.Brand</p>
-            <p>@item.Price.ToString("##,## ₼")</p>
-            <a href="/products/@item.Name.Replace(" ","-")/@item.ID" class="btn btn-success">Details</a>
-            @if (isLogin)
-            {
-                <a href="#" data-pID="@item.ID" class="btn btn-default addBasket"><i class="fas fa-shopping-basket"></i> Add to Cart</a>
-            }
-
-        </div>
-    }
-}*@
+﻿@if (ViewBag.NotVerified != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.NotVerified
+    </div>
+}
 <div class="row">
 
     @foreach (var product in Model)
@@ -50,36 +29,36 @@
         Item added to Basket <br /> <br />
         <a class="btn btn-success text-white" href="@Url.Action("Index","Basket")">My Basket</a>
     </div>
-    <div class="row"></div>
-    @section script{
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script type="text/javascript">
+</div>
+@section scripts{
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $(".addBasket").on("click", function () {
+            $("#andModal").dialog();
+        });
+        $(function () {
+            $("#andModal").dialog({
+                autoOpen: false,
+                show: {
+                    effect: "blind",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                }
+            });
+
             $(".addBasket").on("click", function () {
-                $("#andModal").dialog();
-            });
-            $(function () {
-                $("#andModal").dialog({
-                    autoOpen: false,
-                    show: {
-                        effect: "blind",
-                        duration: 1000
-                    },
-                    hide: {
-                        effect: "explode",
-                        duration: 1000
-                    }
+                var pid = $(this).attr("data-pID");
+                $.post("/Basket/AddProduct?productID=" + pid, function (data) {
+                    $("#andModal").dialog("open");
                 });
 
-                $(".addBasket").on("click", function () {
-                    var pid = $(this).attr("data-pID");
-                    $.post("/Basket/AddProduct?productID=" + pid, function (data) {
-                        $("#andModal").dialog("open");
-                    });
-
-                    return false;
-                });
+                return false;
             });
+        });
 
-        </script>
-    }
+    </script>
+}

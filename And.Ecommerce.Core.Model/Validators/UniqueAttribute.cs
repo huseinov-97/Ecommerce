@@ -15,13 +15,13 @@ namespace And.ECommerce.Core.Model.Validators
             using (AndDB db = new AndDB())
             {
                 var email = value as string;
-                if (db.Users.FirstOrDefault(u => u.Email == email) != null)
+                if (db.Users.Any(u => u.Email == email))
                 {
                     return new ValidationResult("This email has been taken.");
                 }
             }
 
-            return base.IsValid(value, validationContext);
+            return ValidationResult.Success;
         }
     }
 }

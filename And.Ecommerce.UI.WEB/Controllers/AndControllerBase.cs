@@ -22,16 +22,17 @@ namespace And.Ecommerce.UI.WEB
 
 
 
-            if (requestContext.HttpContext.Session["LoginUserID"] != null)
+            if (requestContext.HttpContext.Session["LoggedUser"] == null)
             {
-                //kullanic giriss yapmis
-                IsLogin = true;
-                LoginUserID =(int)requestContext.HttpContext.Session["LoginUserID"];
-                LoginUserEntity = (Core.Model.Entity.User)requestContext.HttpContext.Session["LoginUser"];
-               
+                requestContext.HttpContext.Response.Redirect("/mahir/Home/Login");
             }
- 
+            //kullanic giriss yapmis
+            IsLogin = (bool)requestContext.HttpContext.Session["IsUserLoggedin"];
+            LoginUserID = (int)requestContext.HttpContext.Session["LoggedUserId"];
+            LoginUserEntity = (User)requestContext.HttpContext.Session["LoggedUser"];
             base.Initialize(requestContext);
+
         }
+       
     }
 }

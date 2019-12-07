@@ -1,26 +1,30 @@
 using And.Ecommerce.Core.Model;
 using And.Ecommerce.Core.Model.Entity;
+using And.Ecommerce.UI.WEB.Helpers;
 using And.Ecommerce.UI.WEB.Models;
-using Evmatic.Helpers;
+using And.ECommerce.UI.WEB.Helpers;
 using System;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web.Mvc;
 
 namespace And.Ecommerce.UI.WEB.Controllers
 {
-    public class HomeController : AndControllerBase
+    public class HomeController : Controller
     {
         AndDB db = new AndDB();
 
         // GET: Home
         public ActionResult Index()
         {
-            ViewBag.IsLogin = Session["LoginUser"] != null ? true : false;
+            var currentUser = Session["LoggedUser"] as User;
+            ViewBag.IsLogin = currentUser != null ? true : false;
+            if (currentUser != null && !currentUser.IsEmailVerified)
+            {
+                ViewBag.NotVerified = "Please go to your email in order to verify your account, otherwise you cannot use website.";
+            }
             var products = db.Products.Take(6).OrderBy(p => p.ID).ToList();
             return View(products);
-            //ViewBag.IsLogin = this.IsLogin;
-            //var data = db.Products.OrderByDescending(x => x.CreateDate).Take(5).ToList();
-
 
         }
 
@@ -40,14 +44,16 @@ namespace And.Ecommerce.UI.WEB.Controllers
 
         public ActionResult Login(string email, string password)
         {
-            var data = db.Users.Where(u => u.Email == email && u.Password == password
+            var pass = Crypto.Hash(password);
+            var data = db.Users.Where(u => u.Email == email && u.Password == pass
                             && u.IsActive == true && u.IsAdmin == false).ToList();
             if (data.Count == 1)
             {
                 var user = data.FirstOrDefault();
-                Session["IsLogin"] = true;
-                Session["LoginUser"] = user;
-                Session["LoginUserID"] = user.ID;
+
+                Session["IsUserLoggedin"] = true;
+                Session["LoggedUser"] = user;
+                Session["LoggedUserId"] = user.ID;
                 return RedirectToAction("Index", "Home", null);
             }
             ViewData["Error"] = "Wrong Credientials";
@@ -59,27 +65,94 @@ namespace And.Ecommerce.UI.WEB.Controllers
             return View();
         }
         [HttpPost]
-
-        public ActionResult Register(User user)
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(RegisterModel registerUser)
         {
-            
-            user.IsActive = true;
-            user.IsAdmin = false;
-            user.CreateDate = DateTime.Now.Date;
-            user.CreateUserID = 1;
+            var user = new User
+            {
+                ImageUrl = "no-user.png",
+                IsActive = true,
+                IsAdmin = false,
+                CreateDate = DateTime.Now.Date,
+                CreateUserID = 1
+            };
 
             if (ModelState.IsValid)
             {
+                user.VerificationCode = Guid.NewGuid().ToString();
+                user.IsEmailVerified = false;
+
+                // Sent Form 
+                registerUser.Password = Crypto.Hash(registerUser.Password);
+                registerUser.ComparePassword = Crypto.Hash(registerUser.ComparePassword);
+
+                //Assigning values to real user which will be stored in database
+                user.Name = registerUser.Name;
+                user.LastName = registerUser.LastName;
+                user.Email = registerUser.Email;
+                user.Password = registerUser.Password;
+                user.Telephone = registerUser.Telephone;
+
                 db.Users.Add(user);
                 db.SaveChanges();
-                return RedirectToAction("Login");
+
+                SendCode(user,user.Email,user.VerificationCode);
+                ViewBag.Message = "Verification Link has been sent to your account. Please verify your account, otherwise you will not be able to enter your profile.";
+                ViewBag.Status = true;
+            }
+            else
+            {
+                ViewBag.Status = false;
             }
             return View();
         }
+
+        public ActionResult VerifyAccount(string id)
+        {
+            var user = db.Users.FirstOrDefault(u => u.VerificationCode == new Guid(id).ToString());
+            if (user != null)
+            {
+                try
+                {
+                    ViewBag.Status = true;
+                    ViewBag.Message = "Congratulations! You have verified your account!";
+                    user.IsEmailVerified = true;
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException e)
+                {
+                    string error = string.Empty;
+
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            error += $"- Property: \"{ ve.PropertyName}\", Error: \"{ve.ErrorMessage}\"";
+                        }
+                    }
+                    throw new Exception(error);
+                }
+            }
+            else
+            {
+                ViewBag.Message = "Invalid Request";
+                ViewBag.Status = false;
+            }
+            return View();
+        }
+
+        [HttpPost]
         public ActionResult LogOut()
         {
+            Session["IsUserLoggedin"] = null;
+            Session["LoggedUser"] = null;
+            Session["LoggedUserId"] = null;
+
             Session.Clear();
             Session.Abandon();
+          
             // Redirecting to Login page after deleting Session
             return RedirectToAction("Index", "Home");
         }

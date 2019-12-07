@@ -89,7 +89,10 @@ namespace And.Ecommerce.UI.WEB.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                ImageHelper.Save(product, file);
+                if (file !=null)
+                {
+                    ImageHelper.Save(product, file);
+                }
                 db.Entry(product).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

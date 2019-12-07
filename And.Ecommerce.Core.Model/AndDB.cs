@@ -12,7 +12,7 @@ namespace And.Ecommerce.Core.Model
     public class AndDB : DbContext
     {
 
-        public AndDB() : base(@"Data Source=.\sqlexpress;Initial Catalog=AndEcommerceDB;Integrated Security=True")
+        public AndDB() : base(@"Data Source=.;Initial Catalog=AndEcommerceDB;User ID=sa;Password=Salam#123")
         {
         }
        

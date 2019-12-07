@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Web;
 
-namespace Evmatic.Helpers
+namespace And.ECommerce.UI.WEB.Helpers
 {
     public class MailHelper
     {

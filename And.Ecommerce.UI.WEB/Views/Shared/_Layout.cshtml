@@ -104,34 +104,38 @@
                     <a class="nav-link" href="@Url.Action("Index", "Home")">Home</a>
                 </li>
                 <li class="nav-item active">
-            <a class="nav-link" href="@Url.Action("Index","Product")">All products</a>
-        </li>
+                    <a class="nav-link" href="@Url.Action("Index","Product")">All products</a>
+                </li>
                 <li class="nav-item active">
                     <a class="nav-link"> @Html.Action("GetMenu", "Home")</a>
                 </li>
-</ul>
+            </ul>
             <ul class="navbar-nav ml-auto">
                 @{
-                    if (Session["LoginUser"] == null)
+                    if (Session["LoggedUser"] == null)
                     {
                         <li class="nav-item"><a class="nav-link" href="@Url.Action("Login","Home")">Login</a></li>
                         <li class="nav-item"><a class="nav-link" href="@Url.Action("Register","Home")">Register</a></li>
                     }
                     else
                     {
-                        var user = Session["LoginUser"] as And.Ecommerce.Core.Model.Entity.User;
+                        var user = Session["LoggedUser"] as And.Ecommerce.Core.Model.Entity.User;
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Welcome, @user.Name
+                                <img style="width:30px; height:30px;" src="@Url.Content("~/Documents/UserAvatars/"+user.ImageUrl)" alt="Alternate Text" />  Welcome, @user.Email
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="@Url.Action("Index","Profile")">My Profile</a>
                                 <a class="dropdown-item" href="@Url.Action("MyOrders","Order")">My Orders</a>
                                 <a class="dropdown-item" href="@Url.Action("Index","Basket")">My Basket</a>
-                                <a class="dropdown-item" href="@Url.Action("Logout","Home")">Log out</a>
+                                @*<a class="dropdown-item" href="@Url.Action("Logout","Home")">Log out</a>*@
+                                @using(Html.BeginForm("Logout","Home",FormMethod.Post))
+	                            {
+		                            <button type="submit" class="btn btn-default">Logout</button>
+	                            }
                                 @*@Url.Action("Basket", "Profile")
-        @Url.Action("Orders", "Profile")*@
+                                    @Url.Action("Orders", "Profile")*@
                             </div>
                         </li>
                     }
@@ -149,6 +153,8 @@
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    @RenderSection("script", false)
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    @RenderSection("scripts", false)
 </body>
 </html>

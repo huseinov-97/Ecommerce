@@ -85,6 +85,14 @@
     <Compile Include="Entity\Status.cs" />
     <Compile Include="Entity\User.cs" />
     <Compile Include="Entity\UserAddress.cs" />
+    <Compile Include="Migrations\201912041541527_add_avatar_to_user.cs" />
+    <Compile Include="Migrations\201912041541527_add_avatar_to_user.Designer.cs">
+      <DependentUpon>201912041541527_add_avatar_to_user.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912071400571_add_VerificationCode_and_IsEmailVerified_to_users_table.cs" />
+    <Compile Include="Migrations\201912071400571_add_VerificationCode_and_IsEmailVerified_to_users_table.Designer.cs">
+      <DependentUpon>201912071400571_add_VerificationCode_and_IsEmailVerified_to_users_table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validators\UniqueAttribute.cs" />
@@ -93,6 +101,23 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201912041541527_add_avatar_to_user.resx">
+      <DependentUpon>201912041541527_add_avatar_to_user.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912071400571_add_VerificationCode_and_IsEmailVerified_to_users_table.resx">
+      <DependentUpon>201912071400571_add_VerificationCode_and_IsEmailVerified_to_users_table.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\dropzone\basic.css" />
+    <Content Include="Scripts\dropzone\basic.min.css" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.min.js" />
+    <Content Include="Scripts\dropzone\dropzone.css" />
+    <Content Include="Scripts\dropzone\dropzone.js" />
+    <Content Include="Scripts\dropzone\dropzone.min.css" />
+    <Content Include="Scripts\dropzone\dropzone.min.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
