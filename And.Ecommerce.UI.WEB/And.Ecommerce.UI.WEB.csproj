@@ -111,6 +111,7 @@
     <Content Include="Content\dropzone\dropzone.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\style.css" />
+    <Content Include="Documents\ProductImages\no-image.png" />
     <Content Include="Documents\UserAvatars\no-user.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -145,6 +146,11 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -212,6 +218,8 @@
     <Content Include="Views\Home\ResetPassword.cshtml" />
     <Content Include="Views\Profile\AddAvatar.cshtml" />
     <Content Include="Views\Home\VerifyAccount.cshtml" />
+    <Content Include="Views\Profile\AddProduct.cshtml" />
+    <Content Include="Views\Profile\UploadFiles.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -222,7 +230,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Documents\ProductImages\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\And.Ecommerce.Core.Model\And.Ecommerce.Core.Model.csproj">

@@ -26,7 +26,7 @@ namespace And.Ecommerce.Core.Model
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderProduct> OrderProducts { get; set; }
         public DbSet<OrderPayment> OrderPayments { get; set; }
-   
+        public DbSet<ProductImage> ProductImages { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

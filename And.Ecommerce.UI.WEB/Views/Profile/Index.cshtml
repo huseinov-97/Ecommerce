@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<And.Ecommerce.Core.Model.Entity.Product>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,12 +10,53 @@
         @ViewBag.NotVerified
     </div>
 }
-@Html.ActionLink("Add Avatar", "AddAvatar", "Profile", null, new { @class = "btn btn-primary"})
-    <br />
+@Html.ActionLink("Add Avatar", "AddAvatar", "Profile", null, new { @class = "btn btn-primary" })
+@Html.ActionLink("Add Product", "AddProduct", "Profile", null, new { @class = "btn btn-primary" })
+
+<br />
 @using (Html.BeginForm("RemoveAvatar", "Profile", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     <button class="btn btn-danger" type="submit">Remove Avatar</button>
 }
 
+@if (Model.Count() == 0)
+{
+    <p>You have not added any product yet.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                @*<th>Image</th>*@
+                <th>Product Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>
+                        @foreach (var image in product.ProductImages)
+                        {
+                            <img style="width:200px;" src="@Url.Content("~/Documents/ProductImages/" + image.ImageUrl)" alt="@product.Name" />
+
+                        }
+                    </td>
+                    <td>
+                        <a href="@Url.Action(product.Name.Replace(" ", "-"),"Products",new { id = product.ID})" class="btn btn-primary float-left">In Detail</a>
+
+                    </td>
+                    <th>
+                        @Html.ActionLink("Add Images", "UploadFiles", "Profile", new { id = product.ID }, new { @class = "btn btn-primary" })
+                    </th>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+}
 

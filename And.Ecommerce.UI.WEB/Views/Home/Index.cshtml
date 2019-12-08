@@ -1,4 +1,6 @@
-﻿@if (ViewBag.NotVerified != null)
+﻿@model IEnumerable<And.Ecommerce.Core.Model.Entity.Product>
+
+@if (ViewBag.NotVerified != null)
 {
     <div class="alert alert-danger">
         @ViewBag.NotVerified
@@ -10,12 +12,20 @@
     {
         <div class="col-md-4 col-sm-4">
             <div class="card" style="width: 18rem;">
-                <img style="height:300px;" src="@Url.Content("~/Documents/ProductImages/"+product.ImageUrl)" class="card-img-top" alt="@product.Brand">
-                <div class="card-body">
+                @if (product.ProductImages != null && product.ProductImages.Count() != 0)
+                {
+                    <img style="height:300px;" src="@Url.Content("~/Documents/ProductImages/" + product.ProductImages[0].ImageUrl)" class="card-img-top" alt="@product.Brand">
+
+                }
+                else
+                {
+                    <img style="height:300px;" src="@Url.Content("~/Documents/ProductImages/no-image.png")" class="card-img-top" alt="@product.Brand">
+
+                }<div class="card-body">
                     <h5 class="card-title">@product.Name</h5>
                     <p class="card-text">@product.Price ₼</p>
                     @*<a href="@Url.Action(product.Name.Replace(" ","-"),"Product",new { id = product.ID})" class="btn btn-primary float-left">In Detail</a>*@
-                    <a href="/products/@product.Name.Replace(" ","-")/@product.ID" class="btn btn-primary float-left">In Detail</a>
+                    <a href="@Url.Action(product.Name.Replace(" ", "-"),"Products",new { id = product.ID})" class="btn btn-primary float-left">In Detail</a>
                     @if (ViewBag.IsLogin)
                     {
                         <button data-pID="@product.ID" class="addBasket btn btn-success float-right text-white">Add to Cart</button>

@@ -1,19 +1,22 @@
 ﻿
 @{
-    ViewBag.Title = "AddAvatar";
+    ViewBag.Title = "Upload Files";
 }
 
 <link href="~/Content/dropzone/dropzone.css" rel="stylesheet" />
-<h2>Add Avatar</h2>
+<h2>Add Product Images</h2>
 
 <p>Drag & Drop or Choose a file</p>
-
+@ViewBag.salam
 <div class="row">
     <div class="col-md-12">
-        @using (Ajax.BeginForm("AddAvatar", "Profile", null, new AjaxOptions { HttpMethod = "POST" }, new { @class = "dropzone", id = "mydropzone", enctype = "multipart/form-data" }))
+        @using (Ajax.BeginForm("UploadFiles", "Profile", null, new AjaxOptions { HttpMethod = "POST" }, new { @class = "dropzone", id = "mydropzone", enctype = "multipart/form-data" }))
         {
-
+            int id = (int)ViewBag.ProductId;
+            @Html.Hidden("id",id)
         }
+
+      
     </div>
     <div class="col-md-12 text-right mt-4">
         <button class="btn btn-primary" id="uploadbutton">
@@ -34,10 +37,9 @@
             $("#mydropzone").dropzone({
                 autoProcessQueue: false,
                 paramName: "files",
-                maxFiles: 1,
+                maxFiles: 5,
                 parallelUploads: 1,
-                maxFilesize: 2,//mb
-                maxFilesize: 1, //mb
+                maxFilesize: 5,//mb
                 acceptedFiles: ".jpeg,.jpg,.png",
                 //uploadMultiple:true,
                 addRemoveLinks: true,

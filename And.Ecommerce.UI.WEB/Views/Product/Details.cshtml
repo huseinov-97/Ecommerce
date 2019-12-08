@@ -36,12 +36,21 @@
         @Html.DisplayFor(model => model.Model)
     </dd>
 
-    <dt>
-        @Html.DisplayNameFor(model => model.ImageUrl)
-    </dt>
+   
 
     <dd>
-        <img src="@Url.Content("~/Documents/ProductImages/"+Model.ImageUrl)" />
+        @if (Model.ProductImages != null && Model.ProductImages.Count() != 0)
+        {
+            foreach (var image in Model.ProductImages)
+            {
+                <img style="width:200px;" src="@Url.Content("~/Documents/ProductImages/" + image.ImageUrl)" alt="@Model.Name" />
+            }
+        }
+        else
+        {
+            <img style="width:200px;" src="@Url.Content("~/Documents/ProductImages/no-image.png")" alt="@Model.Name" />
+
+        }
     </dd>
 
     <dt>
@@ -92,7 +101,6 @@
         @Html.DisplayFor(model => model.IsActive)
     </dd>
 </dl>
-</div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")

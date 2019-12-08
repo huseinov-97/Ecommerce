@@ -23,7 +23,7 @@ namespace And.Ecommerce.UI.WEB.Controllers
             {
                 ViewBag.NotVerified = "Please go to your email in order to verify your account, otherwise you cannot use website.";
             }
-            var products = db.Products.Take(6).OrderBy(p => p.ID).ToList();
+            var products = db.Products.Include("ProductImages").Take(6).OrderBy(p => p.ID).ToList();
             return View(products);
 
         }
@@ -54,7 +54,7 @@ namespace And.Ecommerce.UI.WEB.Controllers
                 Session["IsUserLoggedin"] = true;
                 Session["LoggedUser"] = user;
                 Session["LoggedUserId"] = user.ID;
-                return RedirectToAction("Index", "Home", null);
+                return RedirectToAction("Index", "Profile", null);
             }
             ViewData["Error"] = "Wrong Credientials";
             return View();

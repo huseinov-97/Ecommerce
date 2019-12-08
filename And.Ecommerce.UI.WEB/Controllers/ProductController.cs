@@ -32,11 +32,12 @@ namespace And.Ecommerce.UI.WEB.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Find(id);
+            var product = db.Products.Include("ProductImages").FirstOrDefault(p => p.ID == id);
             if (product == null)
             {
                 return HttpNotFound();
             }
+
             return View(product);
         }
     }

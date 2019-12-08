@@ -82,6 +82,7 @@
     <Compile Include="Entity\OrderProduct.cs" />
     <Compile Include="Entity\Partials\User.cs" />
     <Compile Include="Entity\Product.cs" />
+    <Compile Include="Entity\ProductImage.cs" />
     <Compile Include="Entity\Status.cs" />
     <Compile Include="Entity\User.cs" />
     <Compile Include="Entity\UserAddress.cs" />
@@ -92,6 +93,18 @@
     <Compile Include="Migrations\201912071400571_add_VerificationCode_and_IsEmailVerified_to_users_table.cs" />
     <Compile Include="Migrations\201912071400571_add_VerificationCode_and_IsEmailVerified_to_users_table.Designer.cs">
       <DependentUpon>201912071400571_add_VerificationCode_and_IsEmailVerified_to_users_table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912080806302_Crate_ProductImages_table.cs" />
+    <Compile Include="Migrations\201912080806302_Crate_ProductImages_table.Designer.cs">
+      <DependentUpon>201912080806302_Crate_ProductImages_table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912081205357_Add_product_images_to_product_table.cs" />
+    <Compile Include="Migrations\201912081205357_Add_product_images_to_product_table.Designer.cs">
+      <DependentUpon>201912081205357_Add_product_images_to_product_table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912081240074_Remove_imageUrl_from_product_table.cs" />
+    <Compile Include="Migrations\201912081240074_Remove_imageUrl_from_product_table.Designer.cs">
+      <DependentUpon>201912081240074_Remove_imageUrl_from_product_table.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -107,6 +120,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912071400571_add_VerificationCode_and_IsEmailVerified_to_users_table.resx">
       <DependentUpon>201912071400571_add_VerificationCode_and_IsEmailVerified_to_users_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912080806302_Crate_ProductImages_table.resx">
+      <DependentUpon>201912080806302_Crate_ProductImages_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912081205357_Add_product_images_to_product_table.resx">
+      <DependentUpon>201912081205357_Add_product_images_to_product_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912081240074_Remove_imageUrl_from_product_table.resx">
+      <DependentUpon>201912081240074_Remove_imageUrl_from_product_table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
